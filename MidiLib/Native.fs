@@ -1,7 +1,7 @@
-﻿open System
-open System.Runtime.InteropServices
+﻿module Native 
 
-module Native =
+    open System
+    open System.Runtime.InteropServices
 
     // MIDI in messages
     type MidiInMessage = 
@@ -108,7 +108,7 @@ module Native =
     [< DllImport("winmm.dll", SetLastError = true) >]
     extern MMRESULT midiOutOpen([<Out>] HMIDI_IO lphmo, UIntPtr uDeviceId, MidiCallbackProc dwCallback, UIntPtr dwCallbackInstance, UInt64 dwFlags)
 
-    // Sends a short MIDI message (anything but sysex or stream)
+    // Sends a short MIDI message (not sysex or stream)
     // http://msdn.microsoft.com/en-us/library/ms711640(VS.85).aspx
     [< DllImport("winmm.dll", SetLastError = true) >]
     extern MMRESULT midiOutShortMsg(HMIDI_IO hmo, UInt64 dwMsg)
