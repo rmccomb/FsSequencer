@@ -49,6 +49,7 @@
         end
 
     // MIDI input device capabilities structure
+    [<StructLayout(LayoutKind.Sequential)>]
     type MIDIINCAPS =
         struct
             val wMid: UInt16
@@ -71,11 +72,12 @@
     extern UInt32 midiInGetNumDevs()
 
     [< DllImport("winmm.dll", SetLastError = true) >]
-    extern MMRESULT midiInGetDevCaps(UIntPtr uDeviceId, [<Out>] MIDIINCAPS caps, UInt32 cbMidiInCaps)
+    // https://msdn.microsoft.com/en-us/library/windows/desktop/dd798453(v=vs.85).aspx
+    extern MMRESULT midiInGetDevCaps(UIntPtr uDeviceId, [<Out>] MIDIINCAPS& caps, UInt32 cbMidiInCaps)
 
     // https://msdn.microsoft.com/en-us/library/windows/desktop/dd798469(v=vs.85).aspx
     [< DllImport("winmm.dll", SetLastError = true) >]
-    extern MMRESULT midiOutGetDevCaps(UIntPtr uDeviceId, [<Out>] MIDIOUTCAPS caps, UInt32 cbMidiOutCaps)
+    extern MMRESULT midiOutGetDevCaps(UIntPtr uDeviceId, [<Out>] MIDIOUTCAPS& caps, UInt32 cbMidiOutCaps)
 
     // Opens a MIDI input device
     // NOTE: This is adapted from the original Win32 function in order to make it typesafe.
@@ -89,7 +91,7 @@
     // Opens a MIDI output device for playback
     // http://msdn.microsoft.com/en-us/library/ms711610(VS.85).aspx
     [< DllImport("winmm.dll", SetLastError = true) >]
-    extern MMRESULT midiInOpen([<Out>] HMIDI_IO lphMidiIn, UIntPtr uDeviceId,
+    extern MMRESULT midiInOpen([<Out>] HMIDI_IO& lphMidiIn, UIntPtr uDeviceId,
         MidiCallbackProc dwCallback, UIntPtr dwCallbackInstance, UInt64 dwFlags);
 
     // Starts input on a MIDI input device
@@ -106,7 +108,7 @@
     // Opens a MIDI output device for playback
     // https://msdn.microsoft.com/en-us/library/windows/desktop/dd798476(v=vs.85).aspx
     [< DllImport("winmm.dll", SetLastError = true) >]
-    extern MMRESULT midiOutOpen([<Out>] HMIDI_IO lphmo, UIntPtr uDeviceId, MidiCallbackProc dwCallback, UIntPtr dwCallbackInstance, UInt64 dwFlags)
+    extern MMRESULT midiOutOpen([<Out>] HMIDI_IO& lphmo, UIntPtr uDeviceId, MidiCallbackProc dwCallback, UIntPtr dwCallbackInstance, UInt64 dwFlags)
 
     // Sends a short MIDI message (not sysex or stream)
     // http://msdn.microsoft.com/en-us/library/ms711640(VS.85).aspx

@@ -76,6 +76,13 @@
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MidiLib\MidiLib.fsproj">
+      <Name>MidiLib</Name>
+      <Project>{956223a0-0f5c-46b0-beae-5fa12f289525}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

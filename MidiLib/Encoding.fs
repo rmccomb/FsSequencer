@@ -19,6 +19,15 @@
           Velocity: int
           Timestamp: UInt32; }    
 
+    let GetChannel status =
+        status &&& 0x0F
+
+    let EncodeNoteOn chan note vel =
+        0x90 ||| chan ||| note <<< 0x08 ||| vel <<< 0x16
+
+    let EncodeNoteOff chan note vel =
+        0x80 ||| chan ||| note <<< 0x08 ||| vel <<< 0x16
+     
     let GetType status =
         match status &&& 0xF0 with
         | 0x08 -> Ok NoteOff
@@ -29,23 +38,14 @@
         | 0x13 -> Ok ChannelPressure
         | 0x14 -> Ok PitchBendChange
         | _ -> Error "not a channel message"
-
-    let GetChannel status =
-        status &&& 0x0F
-
-    let EncodeNoteOn chan note vel =
-        0x90 ||| chan ||| note <<< 0x08 ||| vel <<< 0x16
-
-    let EncodeNoteOff chan note vel =
-        0x80 ||| chan ||| note <<< 0x08 ||| vel <<< 0x16
-        
+   
     let DecodeMessage param1 param2 =
         match GetType param1 with
-        | Ok t -> Some({Type = t;
-                        Channel = param1 &&& 0x0F; 
-                        Pitch = (param1 &&& 0xFF00) >>> 0x08;
-                        Velocity = (param1 &&& 0xFF0000) >>> 0x10;
-                        Timestamp = param2; })
+        | Ok t -> Some({ Type = t;
+                         Channel = param1 &&& 0x0F; 
+                         Pitch = (param1 &&& 0xFF00) >>> 0x08;
+                         Velocity = (param1 &&& 0xFF0000) >>> 0x10;
+                         Timestamp = param2; })
         | Error e -> None
 
 
