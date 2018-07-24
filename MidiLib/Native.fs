@@ -66,10 +66,15 @@
     type MidiCallbackProc = delegate of HMIDI_IO * MidiInMessage * UIntPtr * UIntPtr * UIntPtr -> unit
 
 
-    // Returns the number of MIDI input devices on this system.
+    // Returns the number of MIDI input devices available
     // http://msdn.microsoft.com/en-us/library/ms711608(VS.85).aspx
     [< DllImport("winmm.dll", SetLastError = true) >]
     extern UInt32 midiInGetNumDevs()
+
+    // Return the number of MIDI output devices available
+    // https://msdn.microsoft.com/en-us/library/windows/desktop/dd798472(v=vs.85).aspx
+    [< DllImport("winmm.dll", SetLastError = true) >]
+    extern UInt32 midiOutGetNumDevs()
 
     [< DllImport("winmm.dll", SetLastError = true) >]
     // https://msdn.microsoft.com/en-us/library/windows/desktop/dd798453(v=vs.85).aspx
@@ -108,7 +113,12 @@
     // Opens a MIDI output device for playback
     // https://msdn.microsoft.com/en-us/library/windows/desktop/dd798476(v=vs.85).aspx
     [< DllImport("winmm.dll", SetLastError = true) >]
-    extern MMRESULT midiOutOpen([<Out>] HMIDI_IO& lphmo, UIntPtr uDeviceId, MidiCallbackProc dwCallback, UIntPtr dwCallbackInstance, UInt64 dwFlags)
+    extern MMRESULT midiOutOpen(
+        [<Out>] HMIDI_IO& lphmo, 
+        UIntPtr uDeviceId, 
+        MidiCallbackProc dwCallback, 
+        UIntPtr dwCallbackInstance, 
+        UInt32 dwFlags)
 
     // Sends a short MIDI message (not sysex or stream)
     // http://msdn.microsoft.com/en-us/library/ms711640(VS.85).aspx
