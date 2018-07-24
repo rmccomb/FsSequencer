@@ -9,23 +9,28 @@ d = [100 80 75 60 60]
 play a 14 
 
 *)
-open Native
-open System
-open System.Runtime.InteropServices
+module Console = 
 
-    [<EntryPoint>]
-    let main argv = 
+    open Native
+    open System
+    //open System.Runtime.InteropServices
 
+    let DisplayDevices() =
         let nDevices = midiInGetNumDevs()
-    
         let mutable deviceId = 0u;
         while deviceId < nDevices do
             let mutable caps = MIDIINCAPS()
             let pDevId = UIntPtr(deviceId)
-            let ppDevId = pDevId.ToPointer()
             let sz = uint32(sizeof<MIDIINCAPS>)
             let result = midiInGetDevCaps(pDevId, &caps, sz)
-            deviceId <- deviceId + 1u
             printfn "%A %A" result caps.szPname
+            deviceId <- deviceId + 1u
 
-        0 // return an integer exit code
+    [<EntryPoint>]
+    let main argv = 
+
+        DisplayDevices()
+
+        0 // exit code
+
+
