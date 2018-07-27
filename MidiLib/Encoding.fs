@@ -1,6 +1,5 @@
 ﻿module Encoding
 
-
     type ChannelEventType = 
         | NoteOff
         | NoteOn
@@ -36,7 +35,7 @@
         | 0xC0 -> Ok ProgramChange
         | 0xD0 -> Ok ChannelPressure
         | 0xE0 -> Ok PitchBendChange
-        | _ -> Error "not a channel message"
+        | _ -> Error BadType
    
     let DecodeMessage (param1:uint32, param2 :uint32) =
         match GetType param1 with

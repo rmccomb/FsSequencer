@@ -12,7 +12,6 @@
         | MMSYSERR_ALLOCATED = 4
         | MMSYSERR_INVALHANDLE = 5        
         // ..
-        | MIDIERR_BASE = 64
         | MIDIERR_UNPREPARED = 64
         | MIDIERR_STILLPLAYING = 65
         | MIDIERR_NOMAP = 66
@@ -21,7 +20,6 @@
         | MIDIERR_INVALIDSETUP = 69
         | MIDIERR_BADOPENMODE = 70
         | MIDIERR_DONT_CONTINUE = 71
-        | MIDIERR_LASTERROR = 72
 
     // MIDI input callback messages
     type MidiInMessage = 
@@ -93,16 +91,8 @@
     [< DllImport("winmm.dll", SetLastError = true) >]
     extern ErrorCode midiOutGetDevCaps(UIntPtr uDeviceId, [<Out>] MIDIOUTCAPS& caps, UInt32 cbMidiOutCaps)
 
-    // Opens a MIDI input device
-    // NOTE: This is adapted from the original Win32 function in order to make it typesafe.
-    //public static MMRESULT midiInOpen(out HMIDIIN lphMidiIn, UIntPtr uDeviceId,
-    //    MidiInProc dwCallback, UIntPtr dwCallbackInstance)
-    //{
-    //    return midiInOpen(out lphMidiIn, uDeviceId, dwCallback, dwCallbackInstance,
-    //        dwCallback == null ? MidiOpenFlags.CALLBACK_NULL : MidiOpenFlags.CALLBACK_FUNCTION);
-    //}
 
-    // Opens a MIDI output device for playback
+    // Opens a MIDI input device for playback
     // http://msdn.microsoft.com/en-us/library/ms711610(VS.85).aspx
     [< DllImport("winmm.dll", SetLastError = true) >]
     extern ErrorCode midiInOpen([<Out>] HMIDI_IO& lphMidiIn, UIntPtr uDeviceId,
