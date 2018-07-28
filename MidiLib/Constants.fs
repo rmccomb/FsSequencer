@@ -1,0 +1,9 @@
+﻿module Constants
+
+    let Separators = [|
+            ' '
+            ';'
+            ','
+            '.'
+        |]
+

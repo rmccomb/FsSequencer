@@ -52,11 +52,13 @@
   <Import Project="$(FSharpTargetsPath)" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="Constants.fs" />
     <Compile Include="C:\Users\Rob\source\repos\FsSequencer\MidiLib\Native.fs" />
     <None Include="Script.fsx" />
     <Content Include="packages.config" />
     <Compile Include="Encoding.fs" />
     <Compile Include="Devices.fs" />
+    <Compile Include="NoteBuilder.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

@@ -4,6 +4,7 @@
     open System.Runtime.InteropServices
 
     
+    // Win API error codes
     type ErrorCode = 
         | MMSYSERR_NOERROR = 0
         | MMSYSERR_ERROR = 1
@@ -30,8 +31,6 @@
         | MIM_ERROR = 0x3C5
         | MIM_LONGERROR = 0x3C6
         | MIM_MOREDATA = 0x3CC
-
-
 
     // Win32 handle for a MIDI output device
     [<StructLayout(LayoutKind.Sequential)>]
