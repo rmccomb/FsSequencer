@@ -39,11 +39,12 @@ module Console =
         ()
 
     let PlaySequence ((*handle: HMIDI_IO*)) =
-        let a = new NoteBuilder "g c d f"
-        a.Repeats <- 1
+        
+        let a = new NoteBuilder "a"
         a.DefaultOctave <- 2
-        let b = new NoteBuilder "g c d f"
-        b.Repeats <- 1
+        
+        let b = new NoteBuilder "b"
+
         
         //let nn = seq { yield! a.Notes }
         //for n in nn do
@@ -54,8 +55,10 @@ module Console =
         //    printfn "%s %A" n.Name n.Number
 
         let nn = seq { 
-            yield! a.Seq 
-            yield! b.Seq
+            yield! a.Seq (repeats=1, shift=0)
+            yield! b.Seq (2, 0)
+            yield! a.Seq (2, 12)
+            yield! b.Seq ()
         }
 
         for n in nn do

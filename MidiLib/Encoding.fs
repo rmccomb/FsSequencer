@@ -48,18 +48,18 @@
 
     let GetMidiNum name = 
         match name with
-        | "c" -> Some(12)
-        | "c#" -> Some(13)
-        | "d" -> Some(14)
-        | "d#" -> Some(15)
-        | "e" -> Some(16)
-        | "f" -> Some(17)
-        | "f#" -> Some(18)
-        | "g" -> Some(19)
-        | "g#" -> Some(20)
-        | "a" -> Some(21)
-        | "a#" -> Some(22)
-        | "b" -> Some(23)
+        | "c" -> Some 12
+        | "c#" -> Some 13
+        | "d" -> Some 14
+        | "d#" -> Some 15
+        | "e" -> Some 16
+        | "f" -> Some 17
+        | "f#" -> Some 18
+        | "g" -> Some 19
+        | "g#" -> Some 20
+        | "a" -> Some 21
+        | "a#" -> Some 22
+        | "b" -> Some 23
         | _ -> None
             
     let GetName midiNum =
