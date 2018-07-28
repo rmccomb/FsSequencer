@@ -46,5 +46,34 @@
                          Timestamp = param2; })
         | Error e -> None
 
-
-        
+    let GetMidiNum name = 
+        match name with
+        | "c" -> Some(12)
+        | "c#" -> Some(13)
+        | "d" -> Some(14)
+        | "d#" -> Some(15)
+        | "e" -> Some(16)
+        | "f" -> Some(17)
+        | "f#" -> Some(18)
+        | "g" -> Some(19)
+        | "g#" -> Some(20)
+        | "a" -> Some(21)
+        | "a#" -> Some(22)
+        | "b" -> Some(23)
+        | _ -> None
+            
+    let GetName midiNum =
+        match midiNum with
+        | n when n % 12 = 0 -> Some "c"
+        | n when n % 13 = 0 -> Some "c#"
+        | n when n % 14 = 0 -> Some "d"
+        | n when n % 15 = 0 -> Some "d#"
+        | n when n % 16 = 0 -> Some "e"
+        | n when n % 17 = 0 -> Some "f"
+        | n when n % 18 = 0 -> Some "f#"
+        | n when n % 19 = 0 -> Some "g"
+        | n when n % 20 = 0 -> Some "g#"
+        | n when n % 21 = 0 -> Some "a"
+        | n when n % 22 = 0 -> Some "a#"
+        | n when n % 23 = 0 -> Some "b"
+        | _ -> None        

@@ -39,10 +39,11 @@ module Console =
         ()
 
     let PlaySequence ((*handle: HMIDI_IO*)) =
-        let a = new NoteBuilder "g c d d# f"
+        let a = new NoteBuilder "g c d f"
         a.Repeats <- 1
-        let b = new NoteBuilder "a b c"
-        b.Repeats <- 2
+        a.DefaultOctave <- 2
+        let b = new NoteBuilder "g c d f"
+        b.Repeats <- 1
         
         //let nn = seq { yield! a.Notes }
         //for n in nn do
@@ -53,22 +54,14 @@ module Console =
         //    printfn "%s %A" n.Name n.Number
 
         let nn = seq { 
-            yield! a.Notes 
-            yield! b.Notes
+            yield! a.Seq 
+            yield! b.Seq
         }
 
         for n in nn do
-            printfn "%s %A %d" n.Name n.Number n.Duration
+            printfn "%s %A %d" n.Name n.MidiNumber n.Duration
             
 
-        let arr = [|new Note("a", 2,3); new Note("b", 3,4)|]
-        let arr2 = Array.map (fun (n:Note) -> 
-            match n.Number with 
-            | Some(num) -> new Note(num + 1, n.Duration, n.Octave)
-            | None -> failwith "no note number") arr
-
-        for n in arr2 do
-            printfn "%d" n.Octave
 
         ()
 
