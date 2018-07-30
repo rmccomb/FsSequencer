@@ -2,6 +2,7 @@
 
     open Native
     open System
+    open System.Collections.Generic
 
     let Eventide = "Eventide"
     let PC3K = "Kurzweil PC3K"
@@ -34,16 +35,19 @@
             deviceId <- deviceId + 1u
         devices
 
-    let OpenOutputDevice (devices: (uint32 * string) list, name:string) :HMIDI_IO =
-        let deviceId, _ = List.find (fun (_,n) -> n = name) devices
-        let mutable handle = HMIDI_IO()
-        let uDeviceId = UIntPtr(deviceId)
-        let callback = null
-        let callbackInt = UIntPtr(0u)
-        let flags = uint32(0)
-        let result = midiOutOpen(&handle, uDeviceId, callback, callbackInt, flags)
-        printfn "%A" result
-        handle
+    let OpenOutputDevice (devices: (uint32 * string) list, name:string) :Option<HMIDI_IO> =
+        try
+            let deviceId, _ = List.find (fun (_,n) -> n = name) devices
+            let mutable handle = HMIDI_IO()
+            let uDeviceId = UIntPtr(deviceId)
+            let callback = null
+            let callbackInt = UIntPtr(0u)
+            let flags = uint32(0)
+            let result = midiOutOpen(&handle, uDeviceId, callback, callbackInt, flags)
+            printfn "%A" result
+            Some handle
+        with 
+            | :? KeyNotFoundException -> None
 
     let CloseOutputDevice (handle: HMIDI_IO) = 
         let result = midiOutClose(handle)

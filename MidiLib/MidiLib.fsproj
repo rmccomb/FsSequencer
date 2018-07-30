@@ -59,6 +59,8 @@
     <Compile Include="Encoding.fs" />
     <Compile Include="Devices.fs" />
     <Compile Include="NoteBuilder.fs" />
+    <Compile Include="Tempo.fs" />
+    <Compile Include="NotePlayer.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

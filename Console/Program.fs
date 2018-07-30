@@ -1,20 +1,9 @@
-﻿(*
-{ macro-stuff }
+﻿module Console = 
 
-a = [g c d d# f]
-b = [g c d d# f g c d d#]
-d = [100 80 75 60 60]
-
-// play(note-list, repeats, dynamics-list)
-play a 14 
-
-*)
-module Console = 
-
-    open Devices
-    open Notes
+    open MidiLib
     open Native
     open System
+    open Devices
 
     let PlayNote (handle: HMIDI_IO) = 
         let chan = 0 // zero-based here (=1)
@@ -56,14 +45,24 @@ module Console =
         //for n in nn do
         //    printfn "%s %A" n.Name n.Number
 
-        let nn = seq { 
+        let notes = seq { 
+
             yield! a.Seq ()
             yield! b.Seq ()
         }
+        
+        let np = new NotePlayer()
+        let devices = GetOutputDevices()
+        np.Device <- OpenOutputDevice(devices, Devices.PC3K)
 
-        for n in nn do
-            printfn "%s %A %d" n.Name n.MidiNumber n.Duration
+        //let t = new Tempo 120.0
+        
+        np.Play notes
             
+        //let task = 
+        //    [|
+        //        for i in 0..
+        //    |]
 
 
         ()

@@ -1,4 +1,4 @@
-﻿module Encoding
+﻿module MidiLib.Encoding
 
     type ChannelEventType = 
         | NoteOff
@@ -62,7 +62,7 @@
         | "b" -> Some 23
         | _ -> None
             
-    let GetName midiNum =
+    let GetNoteName midiNum =
         match midiNum with
         | n when n % 12 = 0 -> Some "c"
         | n when n % 13 = 0 -> Some "d-"

@@ -1,4 +1,4 @@
-﻿module Notes
+﻿namespace MidiLib
 
     open Encoding
 
@@ -6,11 +6,12 @@
     type Note =
         {
             Name: string
-            Duration: float
+            Duration: double
             MidiBase: int
             Octave: int
             Velocity: int
             Index: int
+            Group: int
         } 
         member this.MidiNumber = 
             this.MidiBase + this.Octave * 12
@@ -19,7 +20,7 @@
     // NoteBuilder
     type NoteBuilder (notes:string[]) =
         let mutable _vel = 64
-        let mutable _duration = 1
+        let mutable _duration = 1.0
         let mutable _reps = 1
         let mutable _octave = 1
         let mutable _notes = notes
@@ -41,22 +42,6 @@
 
         member this.Clone = this.MemberwiseClone() :?> NoteBuilder
 
-        member this.WithNotes (value:string) = 
-            let nb = this.Clone
-            nb.Notes <- NotesToArray value
-            nb
-
-        member this.WithVelocity value = this.Clone.Velocity <- value
-        member this.WithDuration value = this.Clone.Duration <- value
-        member this.WithOctave value = this.Clone.Octave <- value
-        member this.WithShift value = this.Clone.Shift <- value
-        member this.WIthRepeats value = this.Clone.Repeats <- value
-
-        member this.Append (notes:string) =
-            let nb = this.Clone
-            nb.Notes <- Array.append this.Notes (NotesToArray notes)
-            nb
-
         member this.Seq (?repeats, ?shift) = seq { 
             let rep = match repeats with
                         | Some n -> n
@@ -75,6 +60,41 @@
                         Octave = _octave
                         Velocity = _vel
                         Index = i
+                        Group = 0
                     }) _notes }
 
+        member this.WithNotes (value:string) = 
+            let nb = this.Clone
+            nb.Notes <- NotesToArray value
+            nb
+
+        member this.WithVelocity value = 
+            let nb = this.Clone
+            nb.Velocity <- value
+            nb
+
+        member this.WithDuration value = 
+            let nb = this.Clone
+            nb.Duration <- value
+            nb
+
+        member this.WithOctave value = 
+            let nb = this.Clone
+            nb.Octave <- value
+            nb
+
+        member this.WithShift value = 
+            let nb = this.Clone
+            nb.Shift <- value
+            nb
+
+        member this.WithRepeats value = 
+            let nb = this.Clone
+            nb.Repeats <- value
+            nb
+
+        member this.Append (notes:string) =
+            let nb = this.Clone
+            nb.Notes <- Array.append this.Notes (NotesToArray notes)
+            nb
         
