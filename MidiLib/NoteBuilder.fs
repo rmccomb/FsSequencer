@@ -11,8 +11,8 @@
         Velocity: int
         Index: int
         Group: int } 
-        member this.MidiNumber = 
-            this.MidiBase + this.Octave * 12
+        member __.MidiNumber = 
+            __.MidiBase + __.Octave * 12
 
 
     // NoteBuilder
@@ -26,23 +26,23 @@
         let mutable _shift = 0
 
         static let NotesToArray (nn:string) = 
-            nn.ToLower().Split(Constants.Separators)
+            nn.Trim().ToLower().Split(Constants.Separators)
 
         new(notes:string) =
             NoteBuilder(NotesToArray(notes))
 
-        member this.NotesArray with get() = _notes and set(value) = _notes <- value
-        member this.Notes = String.concat " " _notes
-        member this.Velocity with get() = _vel and set(value) = _vel <- value
-        member this.Denominator with get() = _denominator and set(value) = _denominator <- value
-        member this.Duration with get() = _duration and set(value) = _duration <- value
-        member this.Octave with get() = _octave and set(value) = _octave <- value
-        member this.Shift with get() = _shift and set(value) = _shift <- value
-        member this.Repeats with get() = _reps and set(value) = _reps <- value
+        member __.NotesArray with get() = _notes and set(value) = _notes <- value
+        member __.Notes = String.concat " " _notes
+        member __.Velocity with get() = _vel and set(value) = _vel <- value
+        member __.Denominator with get() = _denominator and set(value) = _denominator <- value
+        member __.Duration with get() = _duration and set(value) = _duration <- value
+        member __.Octave with get() = _octave and set(value) = _octave <- value
+        member __.Shift with get() = _shift and set(value) = _shift <- value
+        member __.Repeats with get() = _reps and set(value) = _reps <- value
 
-        member this.Clone = this.MemberwiseClone() :?> NoteBuilder
+        member __.Clone = __.MemberwiseClone() :?> NoteBuilder
 
-        member this.Seq (?repeats, ?shift) = seq { 
+        member __.Seq (?repeats, ?shift) = seq { 
             let rep = match repeats with
                         | Some n -> n
                         | None -> _reps
@@ -63,43 +63,43 @@
                         Group = 0
                     }) _notes }
 
-        member this.Append (notes:string, ?repeats:int) =
-            let nb = this.Clone
-
+        member __.Append (notes:string, ?repeats:int) =
             let tnotes = match repeats with
-                            | Some n -> Array.create n notes
-                            | None -> NotesToArray notes
+                            | Some n -> String.replicate n (notes + " ")
+                            | None -> notes
 
-            nb.NotesArray <- Array.append this.NotesArray tnotes
+            let notesArr = NotesToArray tnotes            
+            let nb = __.Clone
+            nb.NotesArray <- Array.append __.NotesArray notesArr
             nb
 
-        member this.WithNotes (value:string) = 
-            let nb = this.Clone
+        member __.WithNotes (value:string) = 
+            let nb = __.Clone
             nb.NotesArray <- NotesToArray value
             nb
 
-        member this.WithVelocity value = 
-            let nb = this.Clone
+        member __.WithVelocity value = 
+            let nb = __.Clone
             nb.Velocity <- value
             nb
 
-        member this.WithDuration value = 
-            let nb = this.Clone
+        member __.WithDuration value = 
+            let nb = __.Clone
             nb.Duration <- value
             nb
 
-        member this.WithOctave value = 
-            let nb = this.Clone
+        member __.WithOctave value = 
+            let nb = __.Clone
             nb.Octave <- value
             nb
 
-        member this.WithShift value = 
-            let nb = this.Clone
+        member __.WithShift value = 
+            let nb = __.Clone
             nb.Shift <- value
             nb
 
-        member this.WithRepeats value = 
-            let nb = this.Clone
+        member __.WithRepeats value = 
+            let nb = __.Clone
             nb.Repeats <- value
             nb
 
