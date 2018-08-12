@@ -29,42 +29,85 @@
 
     let PlaySequence ((*handle: HMIDI_IO*)) =
         
-        let a = new NoteBuilder "g c d e- f"
+        let g = new NoteBuilder "g c"
+        let d = new NoteBuilder "d e- f"
         //let a = new NoteBuilder "a"
-        a.Octave <- 2
-        let b = a.Append "g c d e-"
-        let c = b.Append "g c d"
-
-        printfn "%s" c.NotesAsString
+        g.Octave <- 3
+        g.Denominator <- 8
+        let a = g.Append "d e- f" // 5 note unit
+        //let b = 
+        let c = (a.Append "g c d e-").Append "g c d"
+        let e = a.WithNotes "d e- f"
+        //printfn "%s" c.Notes
         
-        //let nn = seq { yield! a.Notes }
-        //for n in nn do
-        //    printfn "%s %A" n.Name n.Number
-
-        //let nn = seq { for i in 1..5 do yield! a.Notes }
-        //for n in nn do
-        //    printfn "%s %A" n.Name n.Number
-
         let notes = seq { 
+            // 1
+            yield! (g.Append (d.Notes)).Seq (34)
+            yield! (a.Append "g c d e-").Seq (18)
+            yield! c.Seq (14)
+            // 4
+            yield! (c.Append "g c").Seq (15)
+            yield! c.Seq (17)
+            // 6
+            yield! (a.Append "g c d e-").Seq (22)
+            yield! a.Seq (26)
+            yield! (a.Append "d").Seq (14)
+            yield! (a.Append "d e-").Seq (18)
+            // 10
+            yield! (a.Append "d e- f").Seq (11)
+            yield! (a.Append "d e- f d").Seq (16)
+            yield! (a.Append "d e- f d e-").Seq (14)
+            // 13
+            yield! (a.Append "d e- f d e- f").Seq (11)
+            yield! (a.Append "d e- f d e- f d").Seq (7)
+            // 15 
+            yield! ((g.Append (e.Notes, 3)).Append "d e-").Seq (11)
+            yield! ((g.Append (e.Notes, 4)).Append "d e-").Seq (6)
+            // 17
+            yield! ((g.Append (e.Notes, 5)).Append "d e-").Seq ()
+            yield! ((g.Append (e.Notes, 6)).Append "d e-").Seq ()
+            yield! ((g.Append (e.Notes, 7)).Append "d e-").Seq ()
+            yield! ((g.Append (e.Notes, 8)).Append "d e-").Seq ()
+            // 21
+            yield! ((g.Append (e.Notes, 9)).Append "d e-").Seq ()
+            yield! ((g.Append (e.Notes, 10)).Append "d e-").Seq ()
+            yield! ((g.Append (e.Notes, 12)).Append "d e-").Seq ()
+            yield! ((g.Append (e.Notes, 14)).Append "d e-").Seq ()
+            // 25
+            yield! ((g.Append (e.Notes, 16)).Append "d e-").Seq ()
+            yield! ((g.Append (e.Notes, 18)).Append "d e-").Seq ()
+            yield! ((g.Append (e.Notes, 16)).Append "d e-").Seq ()
+            yield! ((g.Append (e.Notes, 14)).Append "d e-").Seq ()
+            // 29
+            yield! ((g.Append (e.Notes, 12)).Append "d e-").Seq ()
+            yield! ((g.Append (e.Notes, 10)).Append "d e-").Seq ()
+            yield! ((g.Append (e.Notes, 9)).Append "d e-").Seq ()
+            yield! ((g.Append (e.Notes, 8)).Append "d e-").Seq ()
+            // 33
+            yield! ((g.Append (e.Notes, 7)).Append "d e-").Seq ()
+            yield! ((g.Append (e.Notes, 6)).Append "d e-").Seq ()
+            yield! ((g.Append (e.Notes, 5)).Append "d e-").Seq ()
+            yield! ((g.Append (e.Notes, 4)).Append "d e-").Seq (7)
+            // 37
+            yield! ((g.Append (e.Notes, 3)).Append "d e-").Seq (9)
+            yield! ((g.Append (e.Notes, 2)).Append "d e-").Seq (11)
+            yield! ((g.Append (e.Notes, 1)).Append "d e-").Seq (18)
+            yield! ((g.Append "d e- g c d e- f d e-").Seq (3)
+            // 41
 
-            yield! a.Seq ()
-            yield! b.Seq ()
         }
         
-        let np = new NotePlayer()
+        // Create a player
+        let temp = new Tempo 128.0
         let devices = GetOutputDevices()
-        np.Device <- OpenOutputDevice(devices, Devices.PC3K)
-
-        //let t = new Tempo 120.0
-        
+        let device = OpenOutputDevice(devices, Devices.PC3K)
+        let np = new NotePlayer (temp, device)
         np.Play notes
             
         //let task = 
         //    [|
         //        for i in 0..
         //    |]
-
-
         ()
 
 

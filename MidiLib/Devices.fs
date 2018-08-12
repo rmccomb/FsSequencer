@@ -9,6 +9,7 @@
 
     let GetInputDevices () =
         let nDevices = midiInGetNumDevs()
+        printfn "%d input devices found" nDevices
         let mutable deviceId = 0u;
         let mutable devices = List.Empty
         while deviceId < nDevices do
@@ -23,6 +24,7 @@
 
     let GetOutputDevices () =
         let nDevices = midiOutGetNumDevs()
+        printfn "%d output devices found" nDevices
         let mutable deviceId = 0u;
         let mutable devices = List.Empty
         while deviceId < nDevices do

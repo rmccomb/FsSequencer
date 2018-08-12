@@ -4,15 +4,13 @@
 
     // Note record
     type Note =
-        {
-            Name: string
-            Duration: double
-            MidiBase: int
-            Octave: int
-            Velocity: int
-            Index: int
-            Group: int
-        } 
+      { Name: string
+        Duration: double
+        MidiBase: int
+        Octave: int
+        Velocity: int
+        Index: int
+        Group: int } 
         member this.MidiNumber = 
             this.MidiBase + this.Octave * 12
 
@@ -21,6 +19,7 @@
     type NoteBuilder (notes:string[]) =
         let mutable _vel = 64
         let mutable _duration = 1.0
+        let mutable _denominator = 4
         let mutable _reps = 1
         let mutable _octave = 1
         let mutable _notes = notes
@@ -32,9 +31,10 @@
         new(notes:string) =
             NoteBuilder(NotesToArray(notes))
 
-        member this.Notes with get() = _notes and set(value) = _notes <- value
-        member this.NotesAsString = String.concat " " _notes
+        member this.NotesArray with get() = _notes and set(value) = _notes <- value
+        member this.Notes = String.concat " " _notes
         member this.Velocity with get() = _vel and set(value) = _vel <- value
+        member this.Denominator with get() = _denominator and set(value) = _denominator <- value
         member this.Duration with get() = _duration and set(value) = _duration <- value
         member this.Octave with get() = _octave and set(value) = _octave <- value
         member this.Shift with get() = _shift and set(value) = _shift <- value
@@ -53,7 +53,7 @@
                 yield! Array.map (fun s -> 
                     { 
                         Name = s 
-                        Duration = _duration
+                        Duration = _duration / float(_denominator)
                         MidiBase = match GetMidiNum (s) with
                                     | Some n -> n + sh
                                     | None -> failwith "no note"
@@ -63,9 +63,19 @@
                         Group = 0
                     }) _notes }
 
+        member this.Append (notes:string, ?repeats:int) =
+            let nb = this.Clone
+
+            let tnotes = match repeats with
+                            | Some n -> Array.create n notes
+                            | None -> NotesToArray notes
+
+            nb.NotesArray <- Array.append this.NotesArray tnotes
+            nb
+
         member this.WithNotes (value:string) = 
             let nb = this.Clone
-            nb.Notes <- NotesToArray value
+            nb.NotesArray <- NotesToArray value
             nb
 
         member this.WithVelocity value = 
@@ -93,8 +103,4 @@
             nb.Repeats <- value
             nb
 
-        member this.Append (notes:string) =
-            let nb = this.Clone
-            nb.Notes <- Array.append this.Notes (NotesToArray notes)
-            nb
         
