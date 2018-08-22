@@ -12,7 +12,7 @@
             let msgOn = Encoding.EncodeNoteOn(_channel, n.MidiNumber, n.Velocity)
             let msgOff = Encoding.EncodeNoteOff(_channel, n.MidiNumber, n.Velocity)
             midiOutShortMsg(h, msgOn) |> ignore // printfn "%A"
-            Threading.Thread.Sleep t.MS
+            Threading.Thread.Sleep (t.MS - 5) // NB Note end 5ms before official end
             midiOutShortMsg(h, msgOff) |> ignore // printfn "%A"
             ()
         

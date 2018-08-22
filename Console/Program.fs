@@ -28,6 +28,8 @@
         ()
 
     let PlaySequence () =
+
+        let temp = new Tempo 115.0
         
         let g = new NoteBuilder "g c"
         let d = new NoteBuilder "d e- f"
@@ -137,7 +139,6 @@
         }
         
         // Create a player
-        let temp = new Tempo 127.0
         let devices = GetOutputDevices()
         let device = OpenOutputDevice(devices, Devices.PC3K)
         let np = new NotePlayer (temp, device)
