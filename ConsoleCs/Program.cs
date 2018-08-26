@@ -17,18 +17,17 @@ namespace ConsoleCs
             var msg = EncodeNoteOn(chan, pitch, velocity);
             Debug.WriteLine(string.Format("{0:x}", msg));
 
-            int chan2, pitch2, velocity2;
-            DecodeNoteOn(msg, out chan2, out pitch2, out velocity2);
+            DecodeNoteOn(msg, out int chan2, out int pitch2, out int velocity2);
             Debug.Assert(chan == chan2);
             Debug.Assert(pitch == pitch2);
             Debug.Assert(velocity == velocity2);
         }
 
-        public static void DecodeNoteOn(UInt32 dwParam1, 
+        public static void DecodeNoteOn(uint dwParam1, 
             out int channel, out int pitch, out int velocity)
         {
-            channel = ((int)dwParam1 & 0x0f);
-            pitch = (((int)dwParam1 & 0xff00) >> 8);
+            channel = (int)dwParam1 & 0x0f;
+            pitch = ((int)dwParam1 & 0xff00) >> 8;
             velocity = ((int)dwParam1 & 0xff0000) >> 16;
         }
 

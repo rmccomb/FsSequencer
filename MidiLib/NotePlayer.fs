@@ -16,8 +16,8 @@
             midiOutShortMsg(h, msgOff) |> ignore // printfn "%A"
             ()
         
-        let PlayNote n =
-            printfn "%s %A %f" n.Name n.MidiNumber n.Duration
+        let PlayNote n i =
+            printfn "%d %s %A %f" i n.Name n.MidiNumber n.Duration
             match _handle with 
             | Some h -> DoPlayNote (h, n)
             | None -> ()
@@ -27,9 +27,12 @@
         member __.Channel with get() = _channel and set(value) = _channel <- value
 
         member __.Play (notes:seq<Note>) =
+            let mutable i = 0;
             for n in notes do
                 match _handle with
-                | Some _ -> PlayNote n
+                | Some _ -> PlayNote n i
                 | None -> ()
+                i <- i + 1
+
 
 
