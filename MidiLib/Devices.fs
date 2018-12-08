@@ -4,8 +4,8 @@
     open System
     open System.Collections.Generic
 
-    let Eventide = "Eventide"
-    let PC3K = "Kurzweil PC3K"
+    let Eventide = "Eventide Dice"
+    let KurzweilPC3K = "Kurzweil PC3K"
 
     let GetInputDevices () =
         let nDevices = midiInGetNumDevs()

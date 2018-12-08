@@ -27,7 +27,7 @@
         printfn "%A" result
         ()
 
-    let PlaySequence () =
+    let PlaySequence (deviceName) =
 
         let temp = new Tempo 115.0
         
@@ -107,7 +107,7 @@
                     yield! d5.Seq i
             }
             // 56
-            yield! d5.Seq (19)
+            yield! d5.Seq 19
 
             // 57
             yield! seq {
@@ -140,7 +140,7 @@
         
         // Create a player
         let devices = GetOutputDevices()
-        let device = OpenOutputDevice(devices, Devices.PC3K)
+        let device = OpenOutputDevice(devices, deviceName)
         let np = new NotePlayer (temp, device)
         np.Play notes
             
@@ -154,7 +154,7 @@
     [<EntryPoint>]
     let main argv = 
         
-        PlaySequence()
+        PlaySequence(Devices.KurzweilPC3K)
 
         0 // exit code
 
