@@ -61,22 +61,18 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core">
-      <Name>FSharp.Core</Name>
-      <AssemblyName>FSharp.Core.dll</AssemblyName>
-      <HintPath>$(MSBuildProgramFiles32)\Reference Assemblies\Microsoft\FSharp\.NETFramework\v4.0\$(TargetFSharpCoreVersion)\FSharp.Core.dll</HintPath>
+      <HintPath>..\packages\FSharp.Core.4.6.2\lib\net45\FSharp.Core.dll</HintPath>
     </Reference>
+    <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.ValueTuple">
-      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net461\System.ValueTuple.dll</HintPath>
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="WindowsBase" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\MidiLib\MidiLib.fsproj">
       <Name>MidiLib</Name>
       <Project>{956223a0-0f5c-46b0-beae-5fa12f289525}</Project>

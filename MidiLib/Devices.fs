@@ -4,8 +4,10 @@
     open System
     open System.Collections.Generic
 
+    let MicrosoftGSWav = "Microsoft GS Wav"
     let Eventide = "Eventide Dice"
     let KurzweilPC3K = "Kurzweil PC3K"
+    let LoopMidiPort = "loopMIDI Port"
 
     let GetInputDevices () =
         let nDevices = midiInGetNumDevs()

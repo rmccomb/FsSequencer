@@ -29,6 +29,10 @@
 
     let PlaySequence (deviceName) =
 
+        //
+        // Two Pages by Philip Glass 1969
+        //
+
         let temp = new Tempo 115.0
         
         let g = new NoteBuilder "g c"
@@ -153,8 +157,20 @@
 
     [<EntryPoint>]
     let main argv = 
+
+        // Test play note
+        // Create a player
+    (*    let devices = GetOutputDevices()
+        let device = OpenOutputDevice(devices, Devices.LoopMidiPort)
+        match device with 
+            | Some h -> PlayNote(h)
+            | None -> ()
+            *)
         
+        //PlaySequence(Devices.LoopMidiPort)
         PlaySequence(Devices.KurzweilPC3K)
+
+
 
         0 // exit code
 
