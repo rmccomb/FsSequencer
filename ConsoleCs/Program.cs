@@ -9,7 +9,7 @@ namespace ConsoleCs
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main( )
         {
             var chan = 1;
             var pitch = 64;

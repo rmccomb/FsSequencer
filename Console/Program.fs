@@ -8,7 +8,7 @@
     let PlayNote (handle: HMIDI_IO) = 
         let chan = 0 // zero-based here (=1)
         let pitch = 68
-        let velocity = 99
+        let velocity = 40
         let msg = Encoding.EncodeNoteOn(chan, pitch, velocity)
 
         // Check encoding
@@ -37,8 +37,11 @@
         
         let g = new NoteBuilder "g c"
         let d = new NoteBuilder "d e- f"
-        g.Octave <- 4
+        g.Octave <- 5
         g.Denominator <- 8
+        g.Velocity <-30
+        d.Velocity <- 30
+
         let a = g.Append "d e- f" // 5 note unit
         let c = (a.Append "g c d e-").Append "g c d"
         let e = a.WithNotes "d e- f"
@@ -141,7 +144,7 @@
             }
             // END
         }
-        
+
         // Create a player
         let devices = GetOutputDevices()
         let device = OpenOutputDevice(devices, deviceName)
@@ -152,6 +155,32 @@
         //    [|
         //        for i in 0..
         //    |]
+        ()
+
+    let PlayNotesInDifferentOctaves(deviceName) =
+        // Seperate octaves test
+        let temp = new Tempo 115.0
+
+        let g = new NoteBuilder "g"
+        g.Octave <- 3
+        g.Denominator <- 8
+
+        let c = new NoteBuilder "c"
+        c.Octave <- 4
+        c.Denominator <- 8
+
+        let g2 = g.Append c.Notes
+
+        let notes = seq {
+            yield! g2.Seq 1
+        }
+
+        // Create a player
+        let devices = GetOutputDevices()
+        let device = OpenOutputDevice(devices, deviceName)
+        let np = new NotePlayer (temp, device)
+        np.Play notes
+
         ()
 
 
@@ -169,6 +198,7 @@
         
         //PlaySequence(Devices.LoopMidiPort)
         PlaySequence(Devices.KurzweilPC3K)
+        //PlayNotesInDifferentOctaves(Devices.KurzweilPC3K)
 
 
 
